@@ -1,3 +1,6 @@
 node_modules/
 work/
 .next/
+.env.local
+.env*.local
+tsconfig.tsbuildinfo

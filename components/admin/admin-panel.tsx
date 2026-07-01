@@ -410,6 +410,22 @@ export function AdminPanel() {
       return;
     }
 
+    const { data: existingMember, error: existingMemberError } = await supabase
+      .from("members")
+      .select("id, name, game_id")
+      .eq("game_id", applicationDraft.game_id)
+      .maybeSingle();
+
+    if (existingMemberError) {
+      setError(existingMemberError.message);
+      return;
+    }
+
+    if (existingMember) {
+      setError(`Участник с ID ${applicationDraft.game_id} уже опубликован: ${existingMember.name}. Эту повторную заявку можно отклонить.`);
+      return;
+    }
+
     const newMember = {
       ...memberPayload({
         ...emptyMember,
@@ -427,7 +443,11 @@ export function AdminPanel() {
     const { error: insertError } = await supabase.from("members").insert(newMember);
 
     if (insertError) {
-      setError(insertError.message);
+      if (insertError.code === "23505" || insertError.message.includes("members_game_id_key")) {
+        setError(`Участник с ID ${applicationDraft.game_id} уже есть в составе. Эту заявку можно отклонить как повторную.`);
+      } else {
+        setError(insertError.message);
+      }
       return;
     }
 

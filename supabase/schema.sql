@@ -295,10 +295,12 @@ insert into public.applications (
   name, age, birth_date, game_nickname, game_id, invited_by, nationality, languages,
   location, device, ult_skill, sns_skill, first_impression, photo_url, status
 )
-values (
+select
   'Тимур', 16, '2009-02-02', 'Pending.K', '900221144', 'Telegram', 'Казах',
   'Русский, Казахский', 'Тараз', 'Android', 'Хороший', 'Учусь',
   'Гильдия выглядит серьёзной и собранной.', null, 'pending'
+where not exists (
+  select 1 from public.applications where game_id = '900221144'
 );
 
 -- После создания пользователя в Authentication добавь администратора так:
