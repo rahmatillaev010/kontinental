@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" role="img" aria-label="Офицер">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#23180e"/>
+      <stop offset="1" stop-color="#050507"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="460" fill="url(#bg)"/>
+  <path d="M320 70l164 62v104c0 104-68 164-164 198-96-34-164-94-164-198V132z" fill="#0a0a0d" stroke="#936b3d" stroke-width="10"/>
+  <path d="M320 110v270" stroke="#e7c797" stroke-width="8"/>
+  <path d="M220 176h200M214 242h212" stroke="#e7c797" stroke-width="8" stroke-linecap="round"/>
+  <text x="320" y="335" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#e7c797">I</text>
+</svg>

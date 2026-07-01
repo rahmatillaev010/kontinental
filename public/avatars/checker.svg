@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" role="img" aria-label="Проверяющий">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#0d1b35"/>
+      <stop offset="1" stop-color="#050507"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="460" fill="url(#bg)"/>
+  <circle cx="256" cy="174" r="68" fill="#07101f" stroke="#6f91c9" stroke-width="8"/>
+  <path d="M148 362c26-72 74-108 108-108s82 36 108 108" fill="#07101f" stroke="#6f91c9" stroke-width="8"/>
+  <path d="M390 226l48 48 94-116" fill="none" stroke="#e3c980" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="320" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="34" fill="#d7e6ff">CHECK</text>
+</svg>

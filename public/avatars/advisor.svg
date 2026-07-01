@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" role="img" aria-label="Советник">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#0d261c"/>
+      <stop offset="1" stop-color="#050507"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="460" fill="url(#bg)"/>
+  <path d="M154 110h162c36 0 58 20 58 56v206H196c-26 0-42-16-42-42z" fill="#09120e" stroke="#c9a45d" stroke-width="8"/>
+  <path d="M486 110H374c-36 0-58 20-58 56v206h128c26 0 42-16 42-42z" fill="#0f1c16" stroke="#c9a45d" stroke-width="8"/>
+  <path d="M210 178h84M210 226h84M382 178h52M382 226h52M382 274h52" stroke="#f1d78b" stroke-width="8" stroke-linecap="round"/>
+  <text x="320" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#f1d78b">ADVISOR</text>
+</svg>

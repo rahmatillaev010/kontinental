@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" role="img" aria-label="Архив состава">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#050507"/>
+      <stop offset="0.55" stop-color="#111217"/>
+      <stop offset="1" stop-color="#10213f"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="540" fill="url(#bg)"/>
+  <rect x="182" y="100" width="536" height="340" rx="18" fill="#08090d" stroke="#bcc4ce" stroke-width="8"/>
+  <path d="M246 178h408M246 248h408M246 318h284" stroke="#c9a45d" stroke-width="9" stroke-linecap="round"/>
+  <path d="M690 100v340" stroke="#c9a45d" stroke-width="7" opacity="0.65"/>
+  <text x="450" y="82" text-anchor="middle" font-family="Georgia, serif" font-size="38" fill="#f7e8ad">KONTINENTAL ARCHIVE</text>
+</svg>

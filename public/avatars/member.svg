@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" role="img" aria-label="Участник">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#171923"/>
+      <stop offset="1" stop-color="#050507"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="460" fill="url(#bg)"/>
+  <circle cx="320" cy="176" r="80" fill="#0b0d12" stroke="#c9a45d" stroke-width="8"/>
+  <path d="M172 376c32-78 92-118 148-118s116 40 148 118" fill="#0b0d12" stroke="#c9a45d" stroke-width="8"/>
+  <path d="M232 92h176" stroke="#bcc4ce" stroke-width="7" stroke-linecap="round"/>
+  <text x="320" y="204" text-anchor="middle" font-family="Georgia, serif" font-size="58" fill="#f1d78b">K</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" role="img" aria-label="Архив">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#111217"/>
+      <stop offset="1" stop-color="#050507"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="460" fill="url(#bg)"/>
+  <rect x="138" y="122" width="364" height="236" rx="18" fill="#08090d" stroke="#6b7280" stroke-width="8"/>
+  <path d="M174 176h292M174 230h292M174 284h182" stroke="#bcc4ce" stroke-width="8" stroke-linecap="round"/>
+  <text x="320" y="96" text-anchor="middle" font-family="Georgia, serif" font-size="34" fill="#bcc4ce">ARCHIVE</text>
+</svg>
