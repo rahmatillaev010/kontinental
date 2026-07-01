@@ -34,6 +34,38 @@ export const defaultSiteContent: SiteContent[] = [
     sort_order: 4
   },
   {
+    id: "home_foundation",
+    key: "home_foundation",
+    title: "Дата основания гильдии",
+    body: "17.02.2026",
+    href: null,
+    sort_order: 5
+  },
+  {
+    id: "home_discord_link",
+    key: "home_discord_link",
+    title: "Discord гильдии",
+    body: "Укажи здесь ссылку на Discord в админ-панели, чтобы участники быстро переходили в голос и комнаты.",
+    href: "#",
+    sort_order: 6
+  },
+  {
+    id: "home_tiktok_link",
+    key: "home_tiktok_link",
+    title: "TikTok гильдии",
+    body: "Ссылка на TikTok гильдии для роликов, моментов и новостей состава.",
+    href: "#",
+    sort_order: 7
+  },
+  {
+    id: "home_leader_contact",
+    key: "home_leader_contact",
+    title: "Связь с лидером",
+    body: "Telegram для связи с лидером или руководством Континенталя.",
+    href: "https://t.me/glkontinental",
+    sort_order: 8
+  },
+  {
     id: "history_intro",
     key: "history_intro",
     title: "История Континенталя",

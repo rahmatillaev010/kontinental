@@ -370,6 +370,54 @@ body::before {
   opacity: 1;
 }
 
+.hero-social-panel {
+  animation: revealRight 0.9s ease-out 0.7s both;
+}
+
+.hero-social-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(201, 164, 93, 0.28);
+  background: rgba(5, 7, 12, 0.76);
+  padding: 1.1rem;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.3);
+  transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease, background 240ms ease;
+}
+
+.hero-social-card::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    radial-gradient(circle at 14% 10%, rgba(227, 201, 128, 0.18), transparent 34%),
+    linear-gradient(115deg, transparent 0%, rgba(247, 232, 173, 0.09) 44%, transparent 62%);
+  opacity: 0;
+  transform: translateX(-12%);
+  transition: opacity 240ms ease, transform 420ms ease;
+}
+
+.hero-social-card > * {
+  position: relative;
+}
+
+.hero-social-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(227, 201, 128, 0.68);
+  background: rgba(11, 15, 24, 0.9);
+  box-shadow: 0 26px 90px rgba(201, 164, 93, 0.18);
+}
+
+.hero-social-card:hover::before {
+  opacity: 1;
+  transform: translateX(10%);
+}
+
 .hero-mobile-service-card {
   display: flex;
   min-height: 4.5rem;
@@ -556,6 +604,41 @@ body::before {
   opacity: 1;
 }
 
+.combat-rule-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(201, 164, 93, 0.24);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.014)),
+    rgba(7, 9, 14, 0.84);
+  padding: 1.25rem;
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.combat-rule-card::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: radial-gradient(circle at 20% 0%, rgba(227, 201, 128, 0.14), transparent 35%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.combat-rule-card > * {
+  position: relative;
+}
+
+.combat-rule-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(227, 201, 128, 0.55);
+  box-shadow: 0 18px 58px rgba(201, 164, 93, 0.14);
+}
+
+.combat-rule-card:hover::before {
+  opacity: 1;
+}
+
 .member-card-motion {
   animation: revealUp 0.7s ease-out both;
 }
@@ -649,6 +732,7 @@ body::before {
 @media (max-width: 1535px) {
   .hero-service-grid,
   .hero-info-panel,
+  .hero-social-panel,
   .hero-contact-strip {
     display: none;
   }

@@ -20,7 +20,7 @@ import {
   XCircle
 } from "lucide-react";
 import clsx from "clsx";
-import { defaultSiteContent } from "@/lib/site-content";
+import { defaultSiteContent, mergeSiteContent } from "@/lib/site-content";
 import { createBrowserSupabaseClient, isBrowserSupabaseConfigured } from "@/lib/supabase/client";
 import { Application, MemberWithRole, Role, SiteContent } from "@/lib/types";
 
@@ -261,7 +261,6 @@ export function AdminPanel() {
   const [archivedMembers, setArchivedMembers] = useState<MemberWithRole[]>([]);
   const [contentItems, setContentItems] = useState<SiteContent[]>(defaultSiteContent);
   const [applicationDraft, setApplicationDraft] = useState<Application | null>(null);
-  const [publishRoleId, setPublishRoleId] = useState("");
   const [memberDraft, setMemberDraft] = useState<MemberWithRole | null>(null);
   const [roleDraft, setRoleDraft] = useState<Role | null>(null);
   const [contentDraft, setContentDraft] = useState<SiteContent | null>(null);
@@ -328,7 +327,7 @@ export function AdminPanel() {
 
     const [rolesResult, applicationsResult, membersResult, archivedResult, contentResult] = await Promise.all([
       supabase.from("roles").select("*").order("sort_order", { ascending: true }),
-      supabase.from("applications").select("*").order("created_at", { ascending: false }),
+      supabase.from("applications").select("*").eq("status", "pending").order("created_at", { ascending: false }),
       supabase.from("members").select("*, role:roles(*)").eq("status", "active").order("joined_at", { ascending: false }),
       supabase.from("members").select("*, role:roles(*)").eq("status", "archived").order("joined_at", { ascending: false }),
       supabase.from("site_content").select("*").order("sort_order", { ascending: true })
@@ -341,7 +340,7 @@ export function AdminPanel() {
       setApplications((applicationsResult.data ?? []) as Application[]);
       setMembers((membersResult.data ?? []) as MemberWithRole[]);
       setArchivedMembers((archivedResult.data ?? []) as MemberWithRole[]);
-      setContentItems(contentResult.data?.length ? (contentResult.data as SiteContent[]) : defaultSiteContent);
+      setContentItems(contentResult.data?.length ? mergeSiteContent(contentResult.data as SiteContent[]) : defaultSiteContent);
     }
 
     setDataLoading(false);
@@ -396,7 +395,7 @@ export function AdminPanel() {
       return;
     }
 
-    setApplicationDraft({ ...applicationDraft, status: "rejected" });
+    setApplicationDraft(null);
     setNotice("Анкета отклонена.");
     await loadData();
   }
@@ -404,7 +403,7 @@ export function AdminPanel() {
   async function publishApplication() {
     if (!supabase || !applicationDraft) return;
 
-    const roleId = publishRoleId || defaultRoleId;
+    const roleId = defaultRoleId;
     if (!roleId) {
       setError("Сначала добавь хотя бы одну должность.");
       return;
@@ -659,16 +658,6 @@ export function AdminPanel() {
           <Field label="Ульт" value={applicationDraft.ult_skill} onChange={(value) => setApplicationDraft({ ...applicationDraft, ult_skill: value })} />
           <Field label="СНС" value={applicationDraft.sns_skill} onChange={(value) => setApplicationDraft({ ...applicationDraft, sns_skill: value })} />
           <Field label="Фото URL" value={applicationDraft.photo_url} onChange={(value) => setApplicationDraft({ ...applicationDraft, photo_url: value })} />
-          <label>
-            <span className="mb-2 block text-sm text-silver">Должность при публикации</span>
-            <select value={publishRoleId || defaultRoleId} onChange={(event) => setPublishRoleId(event.target.value)} className="field">
-              {roles.map((role) => (
-                <option key={role.id} value={role.id}>
-                  {role.name}
-                </option>
-              ))}
-            </select>
-          </label>
           <TextArea label="Первое впечатление" value={applicationDraft.first_impression} onChange={(value) => setApplicationDraft({ ...applicationDraft, first_impression: value })} />
         </div>
       </div>
@@ -1029,10 +1018,7 @@ export function AdminPanel() {
                   applicationDraft?.id === application.id ? "border-gold/60 bg-gold/10" : "border-white/10 bg-white/[0.03]"
                 )}
                 key={application.id}
-                onClick={() => {
-                  setApplicationDraft(application);
-                  setPublishRoleId(defaultRoleId);
-                }}
+                onClick={() => setApplicationDraft(application)}
               >
                 <p className="font-display text-xl text-white">{application.name}</p>
                 <p className="mt-1 text-sm text-silver">
