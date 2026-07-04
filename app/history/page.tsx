@@ -10,6 +10,8 @@ export const metadata: Metadata = createPageMetadata({
   path: "/history"
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function HistoryPage() {
   const content = await getSiteContent();
   const intro = getContentItem(content, "history_intro");

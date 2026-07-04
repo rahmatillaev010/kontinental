@@ -10,6 +10,8 @@ export const metadata: Metadata = createPageMetadata({
   path: "/rules"
 });
 
+export const dynamic = "force-dynamic";
+
 const cards = [
   {
     title: "Критерии вступления",

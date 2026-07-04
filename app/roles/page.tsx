@@ -11,6 +11,8 @@ export const metadata: Metadata = createPageMetadata({
   path: "/roles"
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function RolesPage() {
   const leaders = await getLeadershipProfiles();
 

@@ -11,6 +11,8 @@ export const metadata: Metadata = createPageMetadata({
   path: "/archive"
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function ArchivePage() {
   const [members, roles] = await Promise.all([getMembers("archived"), getRoles()]);
 

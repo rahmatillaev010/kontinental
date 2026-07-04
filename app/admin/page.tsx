@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   }
 };
 
+export const dynamic = "force-dynamic";
+
 export default function AdminPage() {
   return (
     <main className="mx-auto max-w-[118rem] px-4 py-14 sm:px-6 lg:px-8">

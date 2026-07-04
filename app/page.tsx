@@ -27,6 +27,8 @@ export const metadata: Metadata = createPageMetadata({
   path: "/"
 });
 
+export const dynamic = "force-dynamic";
+
 const guildJoinCards = [
   {
     title: "Критерии вступления",

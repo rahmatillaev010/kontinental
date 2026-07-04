@@ -9,6 +9,8 @@ export const metadata: Metadata = createPageMetadata({
   path: "/leader"
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function LeaderPage() {
   const leaders = await getLeadershipProfiles();
   const leader =

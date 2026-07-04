@@ -17,6 +17,8 @@ function Detail({ label, value }: { label: string; value: string | number | null
   );
 }
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const member = await getMemberById(id);
