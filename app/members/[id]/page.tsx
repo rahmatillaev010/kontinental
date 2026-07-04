@@ -1,9 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Archive, CalendarDays, Crown, Gamepad2, Languages, MapPin, MonitorSmartphone, Shield, UserRound } from "lucide-react";
 import { MembersAccessGate } from "@/components/members-access-gate";
+import { getCountryBadge } from "@/lib/countries";
 import { getMemberById } from "@/lib/data";
 import { getRoleVisual } from "@/lib/role-styles";
+import { createPageMetadata } from "@/lib/seo";
 
 function Detail({ label, value }: { label: string; value: string | number | null | undefined }) {
   return (
@@ -12,6 +15,25 @@ function Detail({ label, value }: { label: string; value: string | number | null
       <p className="mt-2 text-white">{value || "Не указано"}</p>
     </div>
   );
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const member = await getMemberById(id);
+
+  if (!member) {
+    return createPageMetadata({
+      title: "Участник не найден",
+      description: "Профиль участника Континенталя не найден или был скрыт.",
+      path: `/members/${id}`
+    });
+  }
+
+  return createPageMetadata({
+    title: `${member.name} — ${member.game_nickname}`,
+    description: `Профиль участника гильдии Континенталь: ${member.name}, ${member.game_nickname}, ${member.role?.name ?? "участник"}.`,
+    path: `/members/${id}`
+  });
 }
 
 export default async function MemberPage({ params }: { params: Promise<{ id: string }> }) {
@@ -24,6 +46,7 @@ export default async function MemberPage({ params }: { params: Promise<{ id: str
 
   const visual = getRoleVisual(member.role);
   const Icon = visual.Icon;
+  const country = getCountryBadge(member.nationality, member.location);
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -56,6 +79,12 @@ export default async function MemberPage({ params }: { params: Promise<{ id: str
               <UserRound className="h-5 w-5 text-gold" aria-hidden />
               {member.game_nickname}
             </p>
+            {country ? (
+              <div className="mt-4 inline-flex items-center gap-2 rounded-lg border border-gold/30 bg-gold/10 px-4 py-2 text-sm font-bold text-gold-soft">
+                <span className="text-lg">{country.flag}</span>
+                {country.name}
+              </div>
+            ) : null}
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Detail label="Возраст" value={member.age} />
@@ -64,6 +93,7 @@ export default async function MemberPage({ params }: { params: Promise<{ id: str
               <Detail label="Должность" value={member.role?.name} />
               <Detail label="Кто позвал" value={member.invited_by} />
               <Detail label="Нация" value={member.nationality} />
+              <Detail label="Страна" value={country ? `${country.flag} ${country.name}` : member.location} />
               <Detail label="Языки" value={member.languages} />
               <Detail label="Откуда" value={member.location} />
               <Detail label="Устройство" value={member.device} />

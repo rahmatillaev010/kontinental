@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
 import { BookOpen, Crown, ScrollText, Shield, Star } from "lucide-react";
 import { getSiteContent } from "@/lib/data";
+import { createPageMetadata } from "@/lib/seo";
 import { getContentItem } from "@/lib/site-content";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "История",
+  description: "История, кодекс и архивные этапы развития гильдии Континенталь.",
+  path: "/history"
+});
 
 export default async function HistoryPage() {
   const content = await getSiteContent();

@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import { Archive } from "lucide-react";
 import { MemberGrid } from "@/components/member-grid";
 import { SectionHeading } from "@/components/section-heading";
 import { getMembers, getRoles } from "@/lib/data";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Архив",
+  description: "Архив участников, которые ранее состояли в гильдии Континенталь.",
+  path: "/archive"
+});
 
 export default async function ArchivePage() {
   const [members, roles] = await Promise.all([getMembers("archived"), getRoles()]);

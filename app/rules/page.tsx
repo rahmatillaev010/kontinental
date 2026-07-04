@@ -1,118 +1,127 @@
-import { AlertTriangle, CheckCircle, Mic, Shield, Swords } from "lucide-react";
-import { SectionHeading } from "@/components/section-heading";
+import type { Metadata } from "next";
+import { CheckCircle, Crown, Mic, Shield, Star, UserPlus, Users } from "lucide-react";
+import { ApplicationModal } from "@/components/application-modal";
+import { getMembers } from "@/lib/data";
+import { createPageMetadata } from "@/lib/seo";
 
-const entryCriteria = [
-  "КБ рейтинг: ранг Мастер.",
-  "БО рейтинг: ранг Мастер.",
-  "Возраст от 16 лет.",
-  "Микрофон обязателен.",
-  "Активность в беседе обязательна.",
-  "2к+ ОС в неделю.",
-  "Неделя на смену ника.",
-  "2 шармы лидеру."
-];
+export const metadata: Metadata = createPageMetadata({
+  title: "Вступление",
+  description: "Правила вступления, критерии и анкета кандидата в гильдию Континенталь.",
+  path: "/rules"
+});
 
-const guildRules = [
+const cards = [
   {
-    title: "Уважение",
-    text: "Участники гильдии обязаны быть адекватными и относиться к гильдии с уважением и пониманием."
+    title: "Критерии вступления",
+    icon: CheckCircle,
+    lines: ["КБ — Мастер", "БО — Мастер", "Возраст от 16 лет", "Наличие микрофона"],
+    badges: ["Мастер КБ", "Мастер БО", "16+", "Микрофон"]
   },
   {
-    title: "Токсичность",
-    text: "Первое нарушение получает предупреждение. Повторное нарушение приводит к кику."
+    title: "Обязанности участника",
+    icon: Shield,
+    lines: ["Активность в беседе", "Минимум 2000 ОС каждую неделю", "Смена ника в течение недели", "Уважительное отношение к участникам"],
+    badges: ["2К ОС", "Активность", "Уважение", "Смена ника"]
   },
   {
-    title: "Конфликты",
-    text: "Все конфликты решаются только в личных сообщениях. Гильдия не должна страдать из-за личных ссор."
-  },
-  {
-    title: "Серьёзные ситуации",
-    text: "При серьёзных недопониманиях нужно сообщать лидеру или администрации."
-  },
-  {
-    title: "Нация и религия",
-    text: "Оскорбление нации или религии приводит к перманентному кику из гильдии."
-  },
-  {
-    title: "Файлы и софт",
-    text: "Создание или продажа сторонних файлов запрещена: софты, усилители, накрутка и похожие нарушения."
-  },
-  {
-    title: "Администрация",
-    text: "Оскорбление администрации чата наказуемо. Возможны предупреждение, мут, кик или бан в зависимости от тяжести нарушения."
+    title: "Правила гильдии",
+    icon: Crown,
+    lines: [
+      "Соблюдать уважительное общение",
+      "Конфликты решать только в личных сообщениях",
+      "При серьёзных ситуациях обращаться к лидеру",
+      "Оскорбления по национальному или религиозному признаку приводят к моментальному исключению"
+    ],
+    badges: ["Без токсичности", "Личные сообщения", "Уважение", "Перманентный кик"]
   }
 ];
 
-const meatRules = [
-  "Форматы: 4/4 и 6/6.",
-  "Оружие: дробовик, дигл, дистанция 10 м.",
-  "Навыки: Алок, Келли, Моко, Каролина.",
-  "ПК только по договору.",
-  "Поднимать нельзя, если это запрещено условиями комнаты.",
-  "Правила читаются до анкеты, чтобы кандидат понимал порядок."
-];
+const timeline = ["Ознакомление с правилами", "Заполнение анкеты", "Проверка администрацией", "Ответ лидера", "Вступление в гильдию"];
 
-export default function RulesPage() {
+export default async function RulesPage() {
+  const members = await getMembers("active");
+
   return (
     <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-      <SectionHeading
-        icon={Shield}
-        eyebrow="Критерии и кодекс"
-        title="Правила гильдии"
-        description="Критерии для вступления и спокойные правила Континенталя: уважение, активность, честная игра и порядок."
-      />
-
-      <section className="mt-12 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
-        <article className="royal-border rounded-lg p-6">
-          <div className="mb-5 flex items-center gap-3">
-            <CheckCircle className="h-6 w-6 text-gold" aria-hidden />
-            <h2 className="font-display text-3xl text-white">Критерии для вступления</h2>
+      <section className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+        <article className="royal-border rounded-lg p-7 lg:sticky lg:top-28">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-lg border border-gold/30 bg-gold/10 px-3 py-1 text-xs uppercase tracking-[0.22em] text-gold-soft">
+            <UserPlus className="h-4 w-4" aria-hidden />
+            Набор игроков
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {entryCriteria.map((rule) => (
-              <div className="rounded-lg border border-gold/20 bg-gold/10 px-4 py-3 text-sm font-semibold text-gold-soft" key={rule}>
-                {rule}
+          <h1 className="font-display text-5xl leading-tight text-white sm:text-6xl">Вступление в гильдию</h1>
+          <p className="mt-5 leading-8 text-silver">
+            Перед подачей заявки ознакомьтесь с требованиями и правилами гильдии. После проверки анкеты администрация свяжется с вами.
+          </p>
+
+          <div className="mt-7 flex flex-wrap gap-3">
+            <ApplicationModal buttonLabel="Подать заявку" />
+            <a href="#guild-rules" className="button-secondary">
+              <Shield className="h-4 w-4" aria-hidden />
+              Правила гильдии
+            </a>
+          </div>
+
+          <div className="mt-8 grid grid-cols-2 gap-3">
+            {[
+              ["Участников", members.length.toString(), Users],
+              ["Онлайн", "24/7", Star],
+              ["Мин. возраст", "16+", UserPlus],
+              ["Мин. ранг", "Мастер", Crown]
+            ].map(([label, value, Icon]) => (
+              <div className="rounded-lg border border-gold/20 bg-gold/10 p-4" key={label as string}>
+                <Icon className="mb-3 h-5 w-5 text-gold" aria-hidden />
+                <p className="font-display text-2xl text-white">{value as string}</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.14em] text-silver">{label as string}</p>
               </div>
             ))}
           </div>
         </article>
 
-        <article className="royal-border rounded-lg p-6">
-          <div className="mb-5 flex items-center gap-3">
-            <Swords className="h-6 w-6 text-gold" aria-hidden />
-            <h2 className="font-display text-3xl text-white">Правила КВ / мясо</h2>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {meatRules.map((rule) => (
-              <div className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 leading-7 text-silver" key={rule}>
-                {rule}
-              </div>
-            ))}
-          </div>
-        </article>
-      </section>
+        <div className="grid gap-4 md:grid-cols-2" id="guild-rules">
+          {cards.map((card) => {
+            const Icon = card.icon;
+            return (
+              <article className="combat-rule-card flex min-h-[21rem] flex-col p-7" key={card.title}>
+                <Icon className="h-6 w-6 text-gold" aria-hidden />
+                <h2 className="mt-4 font-display text-3xl text-white">{card.title}</h2>
+                <ul className="mt-4 flex-1 space-y-2 leading-7 text-silver">
+                  {card.lines.map((line) => (
+                    <li key={line}>• {line}</li>
+                  ))}
+                </ul>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {card.badges.map((badge) => (
+                    <span className="rounded-lg border border-gold/25 bg-gold/10 px-2.5 py-1 text-xs font-bold text-gold-soft" key={badge}>
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            );
+          })}
 
-      <section className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {guildRules.map((rule) => (
-          <article className="combat-rule-card" key={rule.title}>
-            <AlertTriangle className="h-5 w-5 text-gold" aria-hidden />
-            <h2 className="mt-4 font-display text-2xl text-white">{rule.title}</h2>
-            <p className="mt-3 leading-7 text-silver">{rule.text}</p>
+          <article className="combat-rule-card flex min-h-[21rem] flex-col p-7">
+            <Mic className="h-6 w-6 text-gold" aria-hidden />
+            <h2 className="mt-4 font-display text-3xl text-white">Этапы вступления</h2>
+            <div className="mt-5 flex-1 space-y-4">
+              {timeline.map((item, index) => (
+                <div className="flex gap-3" key={item}>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-gold/30 bg-gold/10 text-sm font-bold text-gold-soft">
+                    {index + 1}
+                  </span>
+                  <p className="pt-1 leading-7 text-silver">{item}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {["Анкета", "Проверка", "Ответ", "Принятие"].map((badge) => (
+                <span className="rounded-lg border border-gold/25 bg-gold/10 px-2.5 py-1 text-xs font-bold text-gold-soft" key={badge}>
+                  {badge}
+                </span>
+              ))}
+            </div>
           </article>
-        ))}
-      </section>
-
-      <section className="page-band mt-12 rounded-lg border border-white/10">
-        <div className="grid gap-6 p-6 lg:grid-cols-[auto_1fr] lg:items-center">
-          <span className="flex h-14 w-14 items-center justify-center rounded-lg border border-gold/30 bg-gold/10 text-gold">
-            <Mic className="h-7 w-7" aria-hidden />
-          </span>
-          <div>
-            <h2 className="font-display text-3xl text-white">Как вступить</h2>
-            <p className="mt-3 leading-7 text-silver">
-              Кандидат сначала читает правила, потом заполняет анкету. Заявка приходит в админ-панель, руководство проверяет данные и связывается с игроком.
-            </p>
-          </div>
         </div>
       </section>
     </main>

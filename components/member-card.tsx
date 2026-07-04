@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { Languages, MonitorSmartphone, Shield, UserRound } from "lucide-react";
+import { FaTelegramPlane } from "react-icons/fa";
+import { SiTiktok } from "react-icons/si";
 import clsx from "clsx";
+import { getCountryBadge } from "@/lib/countries";
 import { getRoleVisual } from "@/lib/role-styles";
 import { MemberWithRole } from "@/lib/types";
 
@@ -12,6 +15,7 @@ export function MemberCard({ member }: MemberCardProps) {
   const role = member.role;
   const visual = getRoleVisual(role);
   const Icon = visual.Icon;
+  const country = getCountryBadge(member.nationality, member.location);
 
   return (
     <article
@@ -41,6 +45,11 @@ export function MemberCard({ member }: MemberCardProps) {
             <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-silver">
               ID {member.game_id}
             </span>
+            {country ? (
+              <span className="rounded-lg border border-gold/25 bg-gold/10 px-2.5 py-1 text-xs font-semibold text-gold-soft">
+                {country.flag} {country.name}
+              </span>
+            ) : null}
           </div>
           <h2 className="font-display text-2xl text-white">{member.name}</h2>
           <p className="mt-1 flex items-center gap-2 text-sm text-silver">
@@ -59,6 +68,23 @@ export function MemberCard({ member }: MemberCardProps) {
             {member.languages || "Языки не указаны"}
           </p>
         </div>
+
+        {member.telegram_url || member.tiktok_url ? (
+          <div className="flex flex-wrap gap-2">
+            {member.telegram_url ? (
+              <a href={member.telegram_url} target="_blank" rel="noreferrer" className="social-app-button" aria-label={`Telegram ${member.name}`}>
+                <FaTelegramPlane className="h-4 w-4" aria-hidden />
+                Telegram
+              </a>
+            ) : null}
+            {member.tiktok_url ? (
+              <a href={member.tiktok_url} target="_blank" rel="noreferrer" className="social-app-button" aria-label={`TikTok ${member.name}`}>
+                <SiTiktok className="h-4 w-4" aria-hidden />
+                TikTok
+              </a>
+            ) : null}
+          </div>
+        ) : null}
 
         <Link href={`/members/${member.id}`} className="button-secondary w-full">
           <Shield className="h-4 w-4" aria-hidden />

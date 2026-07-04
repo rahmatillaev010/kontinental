@@ -30,12 +30,17 @@ create table if not exists public.members (
   sns_skill text,
   first_impression text,
   photo_url text,
+  telegram_url text,
+  tiktok_url text,
   role_id uuid references public.roles(id) on delete set null,
   status text not null default 'active' check (status in ('active', 'archived')),
   joined_at date not null default current_date,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.members add column if not exists telegram_url text;
+alter table public.members add column if not exists tiktok_url text;
 
 create table if not exists public.applications (
   id uuid primary key default gen_random_uuid(),
@@ -65,6 +70,87 @@ create table if not exists public.site_content (
   body text not null,
   href text,
   sort_order integer not null default 100,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.gallery_items (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  description text,
+  image_url text not null,
+  sort_order integer not null default 100,
+  is_visible boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.leadership_profiles (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  game_nickname text,
+  age integer check (age between 1 and 120),
+  nationality text,
+  country text,
+  city text,
+  languages text,
+  role_title text not null,
+  role_description text,
+  signature text,
+  photo_url text,
+  background_url text,
+  cover_url text,
+  assigned_at date not null default current_date,
+  status text not null default 'offline' check (status in ('online', 'offline')),
+  sort_order integer not null default 100,
+  is_visible boolean not null default true,
+  best_leader_month text,
+  events_count integer,
+  wars_count integer,
+  invited_count integer,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.leadership_profiles add column if not exists nationality text;
+alter table public.leadership_profiles add column if not exists country text;
+alter table public.leadership_profiles add column if not exists city text;
+alter table public.leadership_profiles add column if not exists languages text;
+alter table public.leadership_profiles add column if not exists signature text;
+alter table public.leadership_profiles add column if not exists background_url text;
+alter table public.leadership_profiles add column if not exists cover_url text;
+
+create table if not exists public.social_platforms (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  icon_key text not null,
+  icon_url text,
+  color text,
+  sort_order integer not null default 100,
+  is_visible boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.leadership_social_links (
+  id uuid primary key default gen_random_uuid(),
+  leader_id uuid not null references public.leadership_profiles(id) on delete cascade,
+  platform_id uuid not null references public.social_platforms(id) on delete cascade,
+  url text not null,
+  is_visible boolean not null default true,
+  sort_order integer not null default 100,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (leader_id, platform_id)
+);
+
+create table if not exists public.combat_requests (
+  id uuid primary key default gen_random_uuid(),
+  guild_name text not null,
+  telegram_username text not null,
+  description text,
+  rules_agreed boolean not null default false,
+  status text not null default 'pending' check (status in ('pending', 'contacted', 'rejected')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -106,6 +192,32 @@ create trigger site_content_touch_updated_at
 before update on public.site_content
 for each row execute function public.touch_updated_at();
 
+drop trigger if exists gallery_items_touch_updated_at on public.gallery_items;
+create trigger gallery_items_touch_updated_at
+before update on public.gallery_items
+for each row execute function public.touch_updated_at();
+
+drop trigger if exists leadership_profiles_touch_updated_at on public.leadership_profiles;
+create trigger leadership_profiles_touch_updated_at
+before update on public.leadership_profiles
+for each row execute function public.touch_updated_at();
+
+drop trigger if exists social_platforms_touch_updated_at on public.social_platforms;
+create trigger social_platforms_touch_updated_at
+before update on public.social_platforms
+for each row execute function public.touch_updated_at();
+
+drop trigger if exists leadership_social_links_touch_updated_at on public.leadership_social_links;
+create trigger leadership_social_links_touch_updated_at
+before update on public.leadership_social_links
+for each row execute function public.touch_updated_at();
+
+drop trigger if exists combat_requests_touch_updated_at on public.combat_requests;
+create trigger combat_requests_touch_updated_at
+before update on public.combat_requests
+for each row execute function public.touch_updated_at();
+
+
 create or replace function public.is_admin(uid uuid)
 returns boolean
 language sql
@@ -124,6 +236,11 @@ alter table public.roles enable row level security;
 alter table public.members enable row level security;
 alter table public.applications enable row level security;
 alter table public.site_content enable row level security;
+alter table public.gallery_items enable row level security;
+alter table public.leadership_profiles enable row level security;
+alter table public.social_platforms enable row level security;
+alter table public.leadership_social_links enable row level security;
+alter table public.combat_requests enable row level security;
 alter table public.admin_users enable row level security;
 
 drop policy if exists "roles are public" on public.roles;
@@ -190,6 +307,83 @@ to authenticated
 using (public.is_admin(auth.uid()))
 with check (public.is_admin(auth.uid()));
 
+drop policy if exists "gallery items are public" on public.gallery_items;
+create policy "gallery items are public"
+on public.gallery_items for select
+to anon, authenticated
+using (is_visible = true);
+
+drop policy if exists "admins manage gallery items" on public.gallery_items;
+create policy "admins manage gallery items"
+on public.gallery_items for all
+to authenticated
+using (public.is_admin(auth.uid()))
+with check (public.is_admin(auth.uid()));
+
+drop policy if exists "leadership profiles are public" on public.leadership_profiles;
+create policy "leadership profiles are public"
+on public.leadership_profiles for select
+to anon, authenticated
+using (is_visible = true);
+
+drop policy if exists "admins manage leadership profiles" on public.leadership_profiles;
+create policy "admins manage leadership profiles"
+on public.leadership_profiles for all
+to authenticated
+using (public.is_admin(auth.uid()))
+with check (public.is_admin(auth.uid()));
+
+drop policy if exists "social platforms are public" on public.social_platforms;
+create policy "social platforms are public"
+on public.social_platforms for select
+to anon, authenticated
+using (is_visible = true);
+
+drop policy if exists "admins manage social platforms" on public.social_platforms;
+create policy "admins manage social platforms"
+on public.social_platforms for all
+to authenticated
+using (public.is_admin(auth.uid()))
+with check (public.is_admin(auth.uid()));
+
+drop policy if exists "leadership social links are public" on public.leadership_social_links;
+create policy "leadership social links are public"
+on public.leadership_social_links for select
+to anon, authenticated
+using (is_visible = true);
+
+drop policy if exists "admins manage leadership social links" on public.leadership_social_links;
+create policy "admins manage leadership social links"
+on public.leadership_social_links for all
+to authenticated
+using (public.is_admin(auth.uid()))
+with check (public.is_admin(auth.uid()));
+
+drop policy if exists "anyone creates combat requests" on public.combat_requests;
+create policy "anyone creates combat requests"
+on public.combat_requests for insert
+to anon, authenticated
+with check (status = 'pending' and rules_agreed = true);
+
+drop policy if exists "admins read combat requests" on public.combat_requests;
+create policy "admins read combat requests"
+on public.combat_requests for select
+to authenticated
+using (public.is_admin(auth.uid()));
+
+drop policy if exists "admins update combat requests" on public.combat_requests;
+create policy "admins update combat requests"
+on public.combat_requests for update
+to authenticated
+using (public.is_admin(auth.uid()))
+with check (public.is_admin(auth.uid()));
+
+drop policy if exists "admins delete combat requests" on public.combat_requests;
+create policy "admins delete combat requests"
+on public.combat_requests for delete
+to authenticated
+using (public.is_admin(auth.uid()));
+
 drop policy if exists "admin user can read own access" on public.admin_users;
 create policy "admin user can read own access"
 on public.admin_users for select
@@ -209,6 +403,19 @@ values (
   'member-photos',
   true,
   5242880,
+  array['image/png', 'image/jpeg', 'image/webp', 'image/gif']
+)
+on conflict (id) do update
+set public = excluded.public,
+    file_size_limit = excluded.file_size_limit,
+    allowed_mime_types = excluded.allowed_mime_types;
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'gallery',
+  'gallery',
+  true,
+  10485760,
   array['image/png', 'image/jpeg', 'image/webp', 'image/gif']
 )
 on conflict (id) do update
@@ -237,6 +444,19 @@ on storage.objects for all
 to authenticated
 using (bucket_id = 'member-photos' and public.is_admin(auth.uid()))
 with check (bucket_id = 'member-photos' and public.is_admin(auth.uid()));
+
+drop policy if exists "public reads gallery photos" on storage.objects;
+create policy "public reads gallery photos"
+on storage.objects for select
+to anon, authenticated
+using (bucket_id = 'gallery');
+
+drop policy if exists "admins manage gallery photos" on storage.objects;
+create policy "admins manage gallery photos"
+on storage.objects for all
+to authenticated
+using (bucket_id = 'gallery' and public.is_admin(auth.uid()))
+with check (bucket_id = 'gallery' and public.is_admin(auth.uid()));
 
 insert into public.roles (name, slug, description, color_theme, sort_order)
 values
@@ -280,6 +500,45 @@ set title = excluded.title,
     href = excluded.href,
     sort_order = excluded.sort_order;
 
+insert into public.gallery_items (title, description, image_url, sort_order, is_visible)
+values
+  ('Королевский зал', 'Главный визуальный стиль портала.', '/gallery/hall.svg', 1, true),
+  ('Знак гильдии', 'Символ Континенталя.', '/gallery/crest.svg', 2, true),
+  ('Архив состава', 'Памятные изображения гильдии.', '/gallery/archive.svg', 3, true),
+  ('Штаб Континенталя', 'Тёмный королевский зал портала.', '/assets/hero-archive.png', 4, true)
+on conflict do nothing;
+
+insert into public.social_platforms (name, icon_key, icon_url, color, sort_order, is_visible)
+values
+  ('Telegram', 'telegram', null, '#2AABEE', 1, true),
+  ('Discord', 'discord', null, '#5865F2', 2, true),
+  ('TikTok', 'tiktok', null, '#ffffff', 3, true),
+  ('Instagram', 'instagram', null, '#E4405F', 4, true),
+  ('YouTube', 'youtube', null, '#FF0000', 5, true),
+  ('VK', 'vk', null, '#4C75A3', 6, true),
+  ('Facebook', 'facebook', null, '#1877F2', 7, true),
+  ('X', 'x', null, '#ffffff', 8, true),
+  ('Steam', 'steam', null, '#66c0f4', 9, true),
+  ('Twitch', 'twitch', null, '#9146FF', 10, true),
+  ('GitHub', 'github', null, '#ffffff', 11, true),
+  ('Website', 'website', null, '#e3c980', 12, true)
+on conflict do nothing;
+
+insert into public.leadership_profiles (
+  name, game_nickname, age, nationality, country, city, languages, role_title, role_description, signature, photo_url, background_url, cover_url, assigned_at, status,
+  sort_order, is_visible, best_leader_month, events_count, wars_count, invited_count
+)
+values
+  ('Амир', 'KNTL.Crown', 20, 'Казах', 'Казахстан', 'Алматы', 'Русский, Казахский', 'Лидер', 'Лидер Континенталя.' || chr(10) || chr(10) || 'Отвечает за решения, атмосферу, дисциплину и финальное слово по важным вопросам состава.' || chr(10) || chr(10) || 'Держит гильдию собранной, уважительной и сильной.', 'Амир', '/avatars/leader.svg', '/hero/royal-hall.svg', null, '2025-01-12', 'online', 1, true, 'Июнь 2026', 12, 8, 18),
+  ('Данил', 'KNTL.Chat', 18, 'Русский', 'Казахстан', 'Астана', 'Русский', 'Временный лидер', 'Помогает лидеру, следит за составом и берёт управление на себя при необходимости.', 'Данил', '/avatars/chat.svg', '/hero/royal-hall.svg', null, '2025-03-04', 'offline', 2, true, null, 7, 4, 9)
+on conflict do nothing;
+
+insert into public.leadership_social_links (leader_id, platform_id, url, is_visible, sort_order)
+select l.id, p.id, 'https://t.me/glkontinental', true, 1
+from public.leadership_profiles l, public.social_platforms p
+where l.name = 'Амир' and p.icon_key = 'telegram'
+on conflict do nothing;
+
 insert into public.members (
   name, age, birth_date, game_nickname, game_id, invited_by, nationality, languages,
   location, device, ult_skill, sns_skill, first_impression, photo_url, role_id, status, joined_at
@@ -294,6 +553,11 @@ values
   ('Максим', 15, '2010-03-11', 'KNTL.New', '739002611', 'Telegram', 'Русский', 'Русский', 'Омск', 'Android', 'Учусь', 'Средний', 'Хочется стать частью сильного состава.', '/avatars/rookie.svg', (select id from public.roles where slug = 'rookie'), 'active', '2025-10-10'),
   ('Егор', 18, '2007-12-05', 'KNTL.Old', '480016622', 'Старый состав', 'Русский', 'Русский', 'Новосибирск', 'Android', 'Средний', 'Средний', 'Был частью первого набора участников.', '/avatars/archive.svg', (select id from public.roles where slug = 'member'), 'archived', '2024-12-20')
 on conflict (game_id) do nothing;
+
+update public.members
+set telegram_url = coalesce(telegram_url, 'https://t.me/glkontinental'),
+    tiktok_url = coalesce(tiktok_url, 'https://www.tiktok.com/')
+where game_id = '123456789';
 
 insert into public.applications (
   name, age, birth_date, game_nickname, game_id, invited_by, nationality, languages,

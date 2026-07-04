@@ -1,4 +1,4 @@
-import { Application, MemberWithRole, Role } from "@/lib/types";
+import { Application, GalleryItem, LeadershipProfile, SocialPlatform, MemberWithRole, Role } from "@/lib/types";
 
 export const demoRoles: Role[] = [
   {
@@ -118,6 +118,8 @@ export const demoMembers: MemberWithRole[] = [
     sns_skill: "Сильный",
     first_impression: "Гильдия должна быть дисциплиной, уважением и честной игрой.",
     photo_url: "/avatars/leader.svg",
+    telegram_url: "https://t.me/glkontinental",
+    tiktok_url: "https://www.tiktok.com/",
     role_id: "role-leader",
     status: "active",
     joined_at: "2025-01-12",
@@ -291,4 +293,181 @@ export const demoApplications: Application[] = [
     photo_url: null,
     status: "pending"
   }
+];
+
+export const demoGalleryItems: GalleryItem[] = [
+  {
+    id: "gallery-hall",
+    title: "Королевский зал",
+    description: "Главный визуальный стиль портала.",
+    image_url: "/gallery/hall.svg",
+    sort_order: 1,
+    is_visible: true
+  },
+  {
+    id: "gallery-crest",
+    title: "Знак гильдии",
+    description: "Символ Континенталя.",
+    image_url: "/gallery/crest.svg",
+    sort_order: 2,
+    is_visible: true
+  },
+  {
+    id: "gallery-archive",
+    title: "Архив состава",
+    description: "Памятные изображения гильдии.",
+    image_url: "/gallery/archive.svg",
+    sort_order: 3,
+    is_visible: true
+  },
+  {
+    id: "gallery-headquarters",
+    title: "Штаб Континенталя",
+    description: "Тёмный королевский зал портала.",
+    image_url: "/assets/hero-archive.png",
+    sort_order: 4,
+    is_visible: true
+  }
+];
+
+export const demoSocialPlatforms: SocialPlatform[] = [
+  { id: "social-telegram", name: "Telegram", icon_key: "telegram", icon_url: null, color: "#2AABEE", sort_order: 1, is_visible: true },
+  { id: "social-discord", name: "Discord", icon_key: "discord", icon_url: null, color: "#5865F2", sort_order: 2, is_visible: true },
+  { id: "social-tiktok", name: "TikTok", icon_key: "tiktok", icon_url: null, color: "#ffffff", sort_order: 3, is_visible: true },
+  { id: "social-instagram", name: "Instagram", icon_key: "instagram", icon_url: null, color: "#E4405F", sort_order: 4, is_visible: true },
+  { id: "social-youtube", name: "YouTube", icon_key: "youtube", icon_url: null, color: "#FF0000", sort_order: 5, is_visible: true }
+];
+
+export const demoLeadershipProfiles: LeadershipProfile[] = [
+  {
+    id: "leader-amir",
+    name: "Амир",
+    game_nickname: "KNTL.Crown",
+    age: 20,
+    nationality: "Казах",
+    country: "Казахстан",
+    city: "Алматы",
+    languages: "Русский, Казахский",
+    role_title: "Лидер",
+    role_description:
+      "Лидер Континенталя.\n\nОтвечает за решения, атмосферу, дисциплину и финальное слово по важным вопросам состава.\n\nДержит гильдию собранной, уважительной и сильной.",
+    signature: "Амир",
+    photo_url: "/avatars/leader.svg",
+    background_url: "/hero/royal-hall.svg",
+    cover_url: "",
+    assigned_at: "2025-01-12",
+    status: "online",
+    sort_order: 1,
+    is_visible: true,
+    best_leader_month: "Июнь 2026",
+    events_count: 12,
+    wars_count: 8,
+    invited_count: 18,
+    social_links: [
+      { id: "leader-amir-telegram", leader_id: "leader-amir", platform_id: "social-telegram", url: "https://t.me/glkontinental", is_visible: true, sort_order: 1, platform: demoSocialPlatforms[0] },
+      { id: "leader-amir-tiktok", leader_id: "leader-amir", platform_id: "social-tiktok", url: "https://www.tiktok.com/", is_visible: true, sort_order: 2, platform: demoSocialPlatforms[2] }
+    ]
+  },
+  {
+    id: "leader-deputy",
+    name: "Данил",
+    game_nickname: "KNTL.Chat",
+    age: 18,
+    nationality: "Русский",
+    country: "Казахстан",
+    city: "Астана",
+    languages: "Русский",
+    role_title: "Временный лидер",
+    role_description: "Помогает лидеру, следит за составом и берёт управление на себя при необходимости.",
+    signature: "Данил",
+    photo_url: "/avatars/chat.svg",
+    background_url: "/hero/royal-hall.svg",
+    cover_url: "",
+    assigned_at: "2025-03-04",
+    status: "offline",
+    sort_order: 2,
+    is_visible: true,
+    best_leader_month: null,
+    events_count: 7,
+    wars_count: 4,
+    invited_count: 9,
+    social_links: [
+      { id: "leader-deputy-discord", leader_id: "leader-deputy", platform_id: "social-discord", url: "https://discord.com/", is_visible: true, sort_order: 1, platform: demoSocialPlatforms[1] }
+    ]
+  },
+  {
+    id: "leader-chat-manager",
+    name: "Нурсултан",
+    game_nickname: "KNTL.Check",
+    age: 17,
+    nationality: "Казах",
+    country: "Казахстан",
+    city: "Караганда",
+    languages: "Русский, Казахский",
+    role_title: "Управляющий",
+    role_description: "Следит за порядком в беседе, помогает участникам и передаёт важные вопросы лидеру.",
+    signature: "Нурсултан",
+    photo_url: "/avatars/checker.svg",
+    background_url: "/hero/royal-hall.svg",
+    cover_url: "",
+    assigned_at: "2025-08-19",
+    status: "online",
+    sort_order: 3,
+    is_visible: true,
+    best_leader_month: null,
+    events_count: 4,
+    wars_count: 2,
+    invited_count: 6,
+    social_links: []
+  },
+  {
+    id: "leader-chat-manager-female",
+    name: "Алина",
+    game_nickname: "KNTL.Astra",
+    age: 16,
+    nationality: "Казашка",
+    country: "Казахстан",
+    city: "Павлодар",
+    languages: "Русский",
+    role_title: "Управляющая",
+    role_description: "Помогает поддерживать спокойную атмосферу и порядок в чате.",
+    signature: "Алина",
+    photo_url: "/avatars/member.svg",
+    background_url: "/hero/royal-hall.svg",
+    cover_url: "",
+    assigned_at: "2025-09-01",
+    status: "offline",
+    sort_order: 4,
+    is_visible: true,
+    best_leader_month: null,
+    events_count: 3,
+    wars_count: 1,
+    invited_count: 5,
+    social_links: []
+  },
+  ...["Офицер I", "Офицер II", "Офицер III", "Проверяющий I", "Проверяющий II", "Проверяющий III"].map((title, index) => ({
+    id: `leader-slot-${index + 1}`,
+    name: `Слот ${index + 1}`,
+    game_nickname: "KNTL.Role",
+    age: null,
+    nationality: null,
+    country: null,
+    city: null,
+    languages: null,
+    role_title: title,
+    role_description: "Этот слот можно заменить реальным участником через админ-панель.",
+    signature: title,
+    photo_url: "/avatars/member.svg",
+    background_url: "/hero/royal-hall.svg",
+    cover_url: "",
+    assigned_at: "2026-02-17",
+    status: "offline" as const,
+    sort_order: index + 5,
+    is_visible: true,
+    best_leader_month: null,
+    events_count: null,
+    wars_count: null,
+    invited_count: null,
+    social_links: []
+  }))
 ];

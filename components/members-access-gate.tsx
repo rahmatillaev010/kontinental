@@ -74,7 +74,7 @@ export function MembersAccessGate({ members = [], roles = [], children }: Member
       {error ? <p className="mt-4 rounded-lg border border-red-400/30 bg-red-400/10 p-3 text-sm text-red-100">{error}</p> : null}
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <Link href="/application" className="button-secondary">
+        <Link href="/rules" className="button-secondary">
           Заполнить анкету
         </Link>
         <a href="https://t.me/glkontinental" target="_blank" rel="noreferrer" className="button-secondary">

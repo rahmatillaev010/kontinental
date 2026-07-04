@@ -1,14 +1,19 @@
+import type { Metadata } from "next";
 import { GalleryHorizontal } from "lucide-react";
+import { GalleryWall } from "@/components/gallery-wall";
 import { SectionHeading } from "@/components/section-heading";
+import { getGalleryItems } from "@/lib/data";
+import { createPageMetadata } from "@/lib/seo";
 
-const gallery = [
-  { src: "/gallery/hall.svg", title: "Королевский зал" },
-  { src: "/gallery/crest.svg", title: "Знак гильдии" },
-  { src: "/gallery/archive.svg", title: "Архив состава" },
-  { src: "/assets/hero-archive.png", title: "Штаб Континенталя" }
-];
+export const metadata: Metadata = createPageMetadata({
+  title: "Галерея",
+  description: "Галерея моментов, скриншотов и визуальной истории гильдии Континенталь.",
+  path: "/gallery"
+});
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const gallery = await getGalleryItems();
+
   return (
     <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <SectionHeading
@@ -18,16 +23,7 @@ export default function GalleryPage() {
         description="Место для скриншотов, турнирных моментов, обложек и памятных изображений гильдии."
       />
 
-      <section className="mt-12 grid gap-5 md:grid-cols-2">
-        {gallery.map((item) => (
-          <article className="group overflow-hidden rounded-lg border border-gold/25 bg-black/30" key={item.src}>
-            <img src={item.src} alt={item.title} className="h-72 w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
-            <div className="border-t border-white/10 p-4">
-              <h2 className="font-display text-2xl text-white">{item.title}</h2>
-            </div>
-          </article>
-        ))}
-      </section>
+      <GalleryWall items={gallery} />
     </main>
   );
 }

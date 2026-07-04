@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="goldGlow" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#f7e8ad" stop-opacity=".32"/>
+      <stop offset="45%" stop-color="#c9a45d" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#050507" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050507"/>
+      <stop offset=".5" stop-color="#111217"/>
+      <stop offset="1" stop-color="#050507"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7e8ad"/>
+      <stop offset=".45" stop-color="#c9a45d"/>
+      <stop offset="1" stop-color="#8f6429"/>
+    </linearGradient>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#floor)"/>
+  <rect width="1200" height="630" fill="url(#goldGlow)"/>
+  <path d="M0 530 C280 455 460 445 600 520 C740 445 920 455 1200 530 L1200 630 L0 630Z" fill="#090b12"/>
+  <path d="M170 80v430M250 60v470M950 60v470M1030 80v430" stroke="#1e212b" stroke-width="38" stroke-linecap="round"/>
+  <path d="M170 80v430M250 60v470M950 60v470M1030 80v430" stroke="#c9a45d" stroke-width="2" opacity=".35"/>
+  <circle cx="600" cy="285" r="128" fill="none" stroke="url(#gold)" stroke-width="5" filter="url(#softGlow)"/>
+  <circle cx="600" cy="285" r="92" fill="none" stroke="#f7e8ad" stroke-width="2" opacity=".6"/>
+  <path d="M526 204c-58 8-108 42-145 91 54-20 104-25 151-13-35-23-48-50-6-78Z" fill="url(#gold)" opacity=".88"/>
+  <path d="M674 204c58 8 108 42 145 91-54-20-104-25-151-13 35-23 48-50 6-78Z" fill="url(#gold)" opacity=".88"/>
+  <path d="M544 336h112l-12 42h-88l-12-42Z" fill="url(#gold)"/>
+  <path d="M550 326l20-72 30 49 30-49 20 72H550Z" fill="#f7e8ad" filter="url(#softGlow)"/>
+  <text x="600" y="450" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="78" fill="#fffdf4">Континенталь</text>
+  <text x="600" y="505" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="26" letter-spacing="2" fill="#e3c980">ЗАКРЫТЫЙ ПОРТАЛ ЭЛИТНОЙ ГИЛЬДИИ FREE FIRE</text>
+  <path d="M370 545h460" stroke="url(#gold)" stroke-width="2"/>
+</svg>

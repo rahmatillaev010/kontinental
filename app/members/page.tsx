@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import { Users } from "lucide-react";
 import { MembersAccessGate } from "@/components/members-access-gate";
 import { SectionHeading } from "@/components/section-heading";
 import { getMembers, getRoles } from "@/lib/data";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Участники",
+  description: "Закрытый состав участников Континенталя с поиском, фильтрами и профилями игроков.",
+  path: "/members"
+});
 
 export default async function MembersPage() {
   const [members, roles] = await Promise.all([getMembers("active"), getRoles()]);
